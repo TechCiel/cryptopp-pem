@@ -1210,7 +1210,7 @@ void PEM_Load(BufferedTransformation& bt, X509Certificate& cert)
 
 void PEM_DH_Load(BufferedTransformation& bt, Integer& p, Integer& g)
 {
-    ByteQueue t1, t2;
+    ByteQueue t1, t2, t3;
     if (PEM_NextObject(bt, t1) == false)
         throw InvalidArgument("PEM_Load: PEM object not available");
 
@@ -1220,9 +1220,9 @@ void PEM_DH_Load(BufferedTransformation& bt, Integer& p, Integer& g)
     else
         throw InvalidDataFormat("PEM_DH_Load: invalid DH parameters");
 
-    PEM_Base64Decode(t1, t2);
+    PEM_Base64Decode(t2, t3);
 
-    BERSequenceDecoder dh(t2);
+    BERSequenceDecoder dh(t3);
         p.BERDecode(dh);
         g.BERDecode(dh);
     dh.MessageEnd();
